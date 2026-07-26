@@ -1,0 +1,4 @@
+<Solution>
+  <Folder Name="/Nucleo/" />
+  <Project Path="RAG.Api/RAG.Api.csproj" />
+</Solution>
