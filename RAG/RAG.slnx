@@ -1,4 +1,8 @@
 <Solution>
-  <Folder Name="/Nucleo/" />
+  <Folder Name="/Nucleo/">
+    <Project Path="RAG.Aplicacao/RAG.Aplicacao.csproj" Id="c6b3a640-f732-4dde-8005-48e27b6c92bb" />
+    <Project Path="RAG.Dominio/RAG.Dominio.csproj" Id="9fbe6de5-90ca-444c-b748-bceda9f5762b" />
+    <Project Path="RAG.Infraestrutura/RAG.Infraestrutura.csproj" Id="dbc76c94-cea5-4909-b932-ecd43df943dd" />
+  </Folder>
   <Project Path="RAG.Api/RAG.Api.csproj" />
 </Solution>
