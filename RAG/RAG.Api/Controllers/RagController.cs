@@ -2,11 +2,13 @@
 
 namespace RAG.Api.Controllers
 {
-    public class RagController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class RagController : ControllerBase
     {
         public IActionResult Index()
         {
-            return View();
+            return Ok();
         }
     }
 }
