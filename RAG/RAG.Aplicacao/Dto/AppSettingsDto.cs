@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RAG.Aplicacao.Dto
+﻿namespace RAG.Aplicacao.Dto
 {
     public class AppSettingsDto
     {
         public LoggingDto Logging { get; set; } = new LoggingDto();
 
         public ConnectionStringsDto ConnectionStrings { get; set; } = new ConnectionStringsDto();
+        public RateLimitDto RateLimit { get; set; } = new RateLimitDto();
+    }
 
+    public class RateLimitDto
+    {
+        public bool Habilitado { get; set; } = true;
+        public int RequisicoesPermitidas { get; set; } = 100;
+        public int JanelaEmSegundos { get; set; } = 60;
+        public int TamanhoFila { get; set; } = 0;
     }
 
     public class ConnectionStringsDto

@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using RAG.Aplicacao.Dto;
 using RAG.Infraestrutura.Contexto;
-using System.Text.Json;
 
 namespace RAG.Api.Configuracao
 {
@@ -12,8 +10,11 @@ namespace RAG.Api.Configuracao
         {
             AppSettingsDto appSettingsDto = configuration.Get<AppSettingsDto>() ?? new AppSettingsDto();
 
+
             appSettingsDto = CarregaBancoDeDados(services, configuration, appSettingsDto);
+            services.RegistrarRateLimit(appSettingsDto);
             services.AddSingleton(appSettingsDto);
+
         }
 
         private static AppSettingsDto CarregaBancoDeDados(this IServiceCollection services, IConfigurationRoot configuration, AppSettingsDto appSettingsDto)
