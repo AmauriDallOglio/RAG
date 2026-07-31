@@ -6,6 +6,8 @@
 
         public ConnectionStringsDto ConnectionStrings { get; set; } = new ConnectionStringsDto();
         public RateLimitDto RateLimit { get; set; } = new RateLimitDto();
+
+        public SegurancaDto Seguranca { get; set; } = new SegurancaDto();
     }
 
     public class RateLimitDto
@@ -33,5 +35,10 @@
         public string Default { get; set; } = string.Empty;
         [System.Text.Json.Serialization.JsonPropertyName("Microsoft.AspNetCore")]
         public string MicrosoftAspNetCore { get; set; } = string.Empty;
+    }
+
+    public class SegurancaDto
+    {
+        public string ApiKey { get; set; } = string.Empty;
     }
 }

@@ -13,7 +13,6 @@ IConfigurationRoot configuration = new ConfigurationBuilder()
     .Build();
 
 
-builder.Services.Configure<ApiKeyConfiguration>(configuration.GetSection("Security"));
 AppSettingsConfiguracao.Carregar(builder.Services, configuration);
 InjecaoDependenciaConfiguracao.RegistrarServicos(builder);
  
