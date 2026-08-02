@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using RAG.Api.Configuracao;
 using RAG.Api.Middleware;
 using RAG.Aplicacao.Dto;
+using RAG.Infraestrutura.Contexto;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,12 @@ ApiConfiguracao.ConfiguracaoSwagger(builder.Services);
 
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<CommandContexto>();
+    dbContext.Database.EnsureCreated();
+}
 
 app.Use(async (context, next) =>
 {

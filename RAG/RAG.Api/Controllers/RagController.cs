@@ -12,16 +12,28 @@ namespace RAG.Api.Controllers
         private readonly IDocumentoCommandRepositorio _IDocumentoCommandRepositorio;
         private readonly IContratoBaseHandler<ObterTodosDocumentoRequest, ResultadoOperacao> _ObterTodosDocumentoHandler;
         private readonly IContratoBaseHandler<ImportarDocumentoRequest, ResultadoOperacao> _ImportarDocumentoHandler;
+        private readonly IContratoBaseHandler<ObterDocumentoPorTituloRequest, ResultadoOperacao> _ObterDocumentoPorTituloHandler;
+        private readonly IContratoBaseHandler<ObterDocumentoPorTipoArquivoRequest, ResultadoOperacao> _ObterDocumentoPorTipoArquivoHandler;
+        private readonly IContratoBaseHandler<ObterDocumentoPorTrechoRequest, ResultadoOperacao> _ObterDocumentoPorTrechoHandler;
+        private readonly IContratoBaseHandler<ObterDocumentoPorPalavraRequest, ResultadoOperacao> _ObterDocumentoPorPalavraHandler;
         public RagController(
             IDocumentoCommandRepositorio iDocumentoCommandRepositorio,
             IContratoBaseHandler<ObterTodosDocumentoRequest, ResultadoOperacao> obterTodosDocumentoHandler,
-            IContratoBaseHandler<ImportarDocumentoRequest, ResultadoOperacao> importarDocumentoHandler
+            IContratoBaseHandler<ImportarDocumentoRequest, ResultadoOperacao> importarDocumentoHandler,
+            IContratoBaseHandler<ObterDocumentoPorTituloRequest, ResultadoOperacao> obterDocumentoPorTituloHandler,
+            IContratoBaseHandler<ObterDocumentoPorTipoArquivoRequest, ResultadoOperacao> obterDocumentoPorTipoArquivoHandler,
+            IContratoBaseHandler<ObterDocumentoPorTrechoRequest, ResultadoOperacao> obterDocumentoPorTrechoHandler,
+            IContratoBaseHandler<ObterDocumentoPorPalavraRequest, ResultadoOperacao> obterDocumentoPorPalavraHandler
             )
 
         {
             _IDocumentoCommandRepositorio = iDocumentoCommandRepositorio;
             _ObterTodosDocumentoHandler = obterTodosDocumentoHandler;
             _ImportarDocumentoHandler = importarDocumentoHandler;
+            _ObterDocumentoPorTituloHandler = obterDocumentoPorTituloHandler;
+            _ObterDocumentoPorTipoArquivoHandler = obterDocumentoPorTipoArquivoHandler;
+            _ObterDocumentoPorTrechoHandler = obterDocumentoPorTrechoHandler;
+            _ObterDocumentoPorPalavraHandler = obterDocumentoPorPalavraHandler;
         }
 
         //[Authorize(Policy = "ollama.write")]
@@ -38,6 +50,34 @@ namespace RAG.Api.Controllers
         public async Task<IActionResult> ObterTodos([FromQuery] ObterTodosDocumentoRequest request, CancellationToken cancellationToken)
         {
             var resultado = await _ObterTodosDocumentoHandler.Executar(request, cancellationToken);
+            return Ok(resultado);
+        }
+
+        [HttpGet("ObterPorTitulo")]
+        public async Task<IActionResult> ObterPorTitulo([FromQuery] ObterDocumentoPorTituloRequest request, CancellationToken cancellationToken)
+        {
+            var resultado = await _ObterDocumentoPorTituloHandler.Executar(request, cancellationToken);
+            return Ok(resultado);
+        }
+
+        [HttpGet("ObterPorTipoArquivo")]
+        public async Task<IActionResult> ObterPorTipoArquivo([FromQuery] ObterDocumentoPorTipoArquivoRequest request, CancellationToken cancellationToken)
+        {
+            var resultado = await _ObterDocumentoPorTipoArquivoHandler.Executar(request, cancellationToken);
+            return Ok(resultado);
+        }
+
+        [HttpGet("ObterPorTrecho")]
+        public async Task<IActionResult> ObterPorTrecho([FromQuery] ObterDocumentoPorTrechoRequest request, CancellationToken cancellationToken)
+        {
+            var resultado = await _ObterDocumentoPorTrechoHandler.Executar(request, cancellationToken);
+            return Ok(resultado);
+        }
+
+        [HttpGet("ObterPorPalavra")]
+        public async Task<IActionResult> ObterPorPalavra([FromQuery] ObterDocumentoPorPalavraRequest request, CancellationToken cancellationToken)
+        {
+            var resultado = await _ObterDocumentoPorPalavraHandler.Executar(request, cancellationToken);
             return Ok(resultado);
         }
 

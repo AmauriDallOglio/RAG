@@ -8,7 +8,7 @@ namespace RAG.Infraestrutura.Mapeamento
     {
         public void Configure(EntityTypeBuilder<DocumentoTrechoPalavra> builder)
         {
-            builder.ToTable("DocumentoTrechoPalavra");
+            builder.ToTable("DocumentoTrechosPalavra");
             builder.HasKey(p => p.Id);
 
             builder.Property(p => p.Palavra).HasMaxLength(100).IsRequired();
