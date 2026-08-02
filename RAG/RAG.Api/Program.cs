@@ -15,46 +15,24 @@ IConfigurationRoot configuration = new ConfigurationBuilder()
 
 AppSettingsConfiguracao.Carregar(builder.Services, configuration);
 InjecaoDependenciaConfiguracao.RegistrarServicos(builder);
- 
-builder.Services.RegistrarCqrs();
-
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddSecurityDefinition("ApiKey", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-    {
-        Name = "X-Api-Key",
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
-        Description = "Informe a API Key do serviço"
-    });
-
-    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-    {
-        {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-            {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference
-                {
-                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                    Id = "ApiKey"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
+ApiConfiguracao.ConfiguracaoSwagger(builder.Services);
 
 
 var app = builder.Build();
 
-
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path == "/")
+    {
+        context.Response.Redirect("/swagger/index.html");
+        return;
+    }
+    await next();
+});
 app.UseSwagger();
 app.UseSwaggerUI();
+app.ConfigurarMiddlewaresApi();
 app.UseCors("AllowAll");
-app.UseMiddleware<ApiKeyMiddleware>();
 
 var appSettings = app.Services.GetRequiredService<AppSettingsDto>();
 if (appSettings.RateLimit.Habilitado)
@@ -62,7 +40,5 @@ if (appSettings.RateLimit.Habilitado)
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
