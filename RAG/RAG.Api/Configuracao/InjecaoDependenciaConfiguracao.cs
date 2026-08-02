@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RAG.Aplicacao.Rotas.RagRota;
-using RAG.Aplicacao.Util;
 using RAG.Dominio.InterfaceRepositorio;
 using RAG.Infraestrutura.Repositorio;
 
@@ -18,14 +17,13 @@ namespace RAG.Api.Configuracao
             });
 
 
-            builder.Services.AddScoped<IContratoBaseHandler<ObterTodosDocumentoRequest, ResultadoOperacao>, ObterTodosDocumentoHandler>();
-            builder.Services.AddScoped<IContratoBaseHandler<ImportarDocumentoRequest, ResultadoOperacao>, ImportarDocumentoHandler>();
-            builder.Services.AddScoped<IContratoBaseHandler<ObterDocumentoPorTituloRequest, ResultadoOperacao>, ObterDocumentoPorTituloHandler>();
-            builder.Services.AddScoped<IContratoBaseHandler<ObterDocumentoPorTipoArquivoRequest, ResultadoOperacao>, ObterDocumentoPorTipoArquivoHandler>();
-            builder.Services.AddScoped<IContratoBaseHandler<ObterDocumentoPorTrechoRequest, ResultadoOperacao>, ObterDocumentoPorTrechoHandler>();
-            builder.Services.AddScoped<IContratoBaseHandler<ObterDocumentoPorPalavraRequest, ResultadoOperacao>, ObterDocumentoPorPalavraHandler>();
-
-
+            builder.Services.AddScoped<DocumentoCommandRepositorio>();
+            builder.Services.AddScoped<ObterTodosDocumentoHandler>();
+            builder.Services.AddScoped<ImportarDocumentoHandler>();
+            builder.Services.AddScoped<ObterDocumentoPorTituloHandler>();
+            builder.Services.AddScoped<ObterDocumentoPorTipoArquivoHandler>();
+            builder.Services.AddScoped<ObterDocumentoPorTrechoHandler>();
+            builder.Services.AddScoped<ObterDocumentoPorPalavraHandler>();
 
             builder.Services.AddScoped<IDocumentoCommandRepositorio, DocumentoCommandRepositorio>();
             builder.Services.AddScoped<IDocumentoTrechoCommandRepositorio, DocumentoTrechoCommandRepositorio>();
