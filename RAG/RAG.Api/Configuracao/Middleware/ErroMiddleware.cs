@@ -1,6 +1,6 @@
 using RAG.Aplicacao.Util;
 
-namespace RAG.Api.Middleware
+namespace RAG.Api.Configuracao.Middleware
 {
     public class ErroMiddleware
     {

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RAG.Api.Configuracao;
-using RAG.Api.Middleware;
+using RAG.Api.Configuracao.Middleware;
 using RAG.Aplicacao.Dto;
 using RAG.Infraestrutura.Contexto;
 

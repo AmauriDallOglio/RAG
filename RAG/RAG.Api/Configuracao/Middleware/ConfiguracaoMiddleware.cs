@@ -1,4 +1,4 @@
-namespace RAG.Api.Middleware
+namespace RAG.Api.Configuracao.Middleware
 {
     public static class ConfiguracaoMiddleware
     {
