@@ -1,7 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using RAG.Api.Configuracao;
 using RAG.Api.Configuracao.Middleware;
-using RAG.Aplicacao.Dto;
 using RAG.Infraestrutura.Contexto;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,9 +40,17 @@ app.UseSwaggerUI();
 app.ConfigurarMiddlewaresApi();
 app.UseCors("AllowAll");
 
-var appSettings = app.Services.GetRequiredService<AppSettingsDto>();
-if (appSettings.RateLimit.Habilitado)
-    app.UseRateLimiter();
+
+// Ativa monitor e RateLimiter
+app.AtivarAppSettinngsConfiguracao();
+
+////monitor para ativar o OnChange
+//app.Services.GetRequiredService<MonitoraAppSettings>();
+
+//var monitor = app.Services.GetRequiredService<IOptionsMonitor<AppSettingsDto>>();
+//if (monitor.CurrentValue.RateLimit.Habilitado)
+//    app.UseRateLimiter();
+
 
 app.UseAuthentication();
 app.UseAuthorization();
