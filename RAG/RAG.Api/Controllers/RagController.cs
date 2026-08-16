@@ -12,6 +12,7 @@ namespace RAG.Api.Controllers
         private readonly DocumentoCommandRepositorio _documentoCommandRepositorio;
         private readonly ObterTodosDocumentoHandler _obterTodosDocumentoHandler;
         private readonly ImportarDocumentoHandler _importarDocumentoHandler;
+        private readonly ImportarTextoHandler _importarTextoHandler;
         private readonly ObterDocumentoPorTituloHandler _obterDocumentoPorTituloHandler;
         private readonly ObterDocumentoPorTipoArquivoHandler _obterDocumentoPorTipoArquivoHandler;
         private readonly ObterDocumentoPorTrechoHandler _obterDocumentoPorTrechoHandler;
@@ -21,6 +22,7 @@ namespace RAG.Api.Controllers
             DocumentoCommandRepositorio documentoCommandRepositorio,
             ObterTodosDocumentoHandler obterTodosDocumentoHandler,
             ImportarDocumentoHandler importarDocumentoHandler,
+            ImportarTextoHandler importarTextoHandler,
             ObterDocumentoPorTituloHandler obterDocumentoPorTituloHandler,
             ObterDocumentoPorTipoArquivoHandler obterDocumentoPorTipoArquivoHandler,
             ObterDocumentoPorTrechoHandler obterDocumentoPorTrechoHandler,
@@ -29,6 +31,7 @@ namespace RAG.Api.Controllers
             _documentoCommandRepositorio = documentoCommandRepositorio;
             _obterTodosDocumentoHandler = obterTodosDocumentoHandler;
             _importarDocumentoHandler = importarDocumentoHandler;
+            _importarTextoHandler = importarTextoHandler;
             _obterDocumentoPorTituloHandler = obterDocumentoPorTituloHandler;
             _obterDocumentoPorTipoArquivoHandler = obterDocumentoPorTipoArquivoHandler;
             _obterDocumentoPorTrechoHandler = obterDocumentoPorTrechoHandler;
@@ -40,6 +43,13 @@ namespace RAG.Api.Controllers
         public async Task<IActionResult> ImportarDocumento([FromForm] ImportarDocumentoRequest request, CancellationToken cancellationToken)
         {
             var resultado = await _importarDocumentoHandler.Executar(request, cancellationToken);
+            return Ok(resultado);
+        }
+
+        [HttpPost("ImportarTexto")]
+        public async Task<IActionResult> ImportarTexto([FromBody] ImportarTextoRequest request, CancellationToken cancellationToken)
+        {
+            var resultado = await _importarTextoHandler.Executar(request, cancellationToken);
             return Ok(resultado);
         }
 

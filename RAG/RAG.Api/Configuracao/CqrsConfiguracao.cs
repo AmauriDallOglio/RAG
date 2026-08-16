@@ -8,6 +8,7 @@ namespace RAG.Api.Configuracao
         public static IServiceCollection RegistrarCqrs(this IServiceCollection services)
         {
             services.RegistrarHandler<ImportarDocumentoRequest, ImportarDocumentoHandler>();
+            services.RegistrarHandler<ImportarTextoRequest, ImportarTextoHandler>();
             services.RegistrarHandler<ObterTodosDocumentoRequest, ObterTodosDocumentoHandler>();
  
 

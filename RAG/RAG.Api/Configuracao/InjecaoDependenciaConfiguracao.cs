@@ -20,6 +20,7 @@ namespace RAG.Api.Configuracao
             builder.Services.AddScoped<DocumentoCommandRepositorio>();
             builder.Services.AddScoped<ObterTodosDocumentoHandler>();
             builder.Services.AddScoped<ImportarDocumentoHandler>();
+            builder.Services.AddScoped<ImportarTextoHandler>();
             builder.Services.AddScoped<ObterDocumentoPorTituloHandler>();
             builder.Services.AddScoped<ObterDocumentoPorTipoArquivoHandler>();
             builder.Services.AddScoped<ObterDocumentoPorTrechoHandler>();
