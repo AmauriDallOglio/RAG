@@ -30,17 +30,14 @@ namespace RAG.Dominio.Entidade
                 DataImportacao = DateTime.Now
             };
 
-            // Quebra o documento em frases
-            string[] frases = documento.Texto.Split(new[] { '.', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] frases = QuebrarEmFrases(documento.Texto);
 
             foreach (string frase in frases)
             {
-                // Ignorar frases muito curtas
                 if (frase.Length <= 5)
                     continue;
 
                 string fraseCorrigida = Regex.Replace(frase.ToLowerInvariant(), @"[.,;]", "").Trim().ToLowerInvariant();
-                //  fraseCorrigida = Regex.Replace(fraseCorrigida, @"[^a-zA-Z0-9\s]", ""); // remove tudo que não seja letra, número ou espaço
 
                 var trecho = new DocumentoTrecho
                 {
@@ -48,14 +45,12 @@ namespace RAG.Dominio.Entidade
                     Documento = documento
                 };
 
-                // Quebra a frase em palavras
                 string[] palavras = fraseCorrigida.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string palavra in palavras)
                 {
                     string palavraCorrigida = Regex.Replace(palavra.ToLowerInvariant(), @"[.,;]", "");
 
-                    // Ignorar stopwords, palavras vazias e palavras de 1 caractere
                     if (string.IsNullOrWhiteSpace(palavraCorrigida)
                         || palavraCorrigida.Length == 1
                         || ignorarPalavras.Contains(palavraCorrigida))
@@ -75,15 +70,19 @@ namespace RAG.Dominio.Entidade
             }
 
             return documento;
-
- 
         }
 
+        private static string[] QuebrarEmFrases(string texto)
+        {
+            if (string.IsNullOrWhiteSpace(texto))
+                return Array.Empty<string>();
 
+            return Regex.Split(texto, @"(?<=[.!?])\s+|\n+")
+                .Select(f => f.Trim())
+                .Where(f => !string.IsNullOrWhiteSpace(f))
+                .ToArray();
+        }
 
- 
-
-        // Lista de palavras ignoradas (stopwords)
         private static readonly HashSet<string> ignorarPalavras = new HashSet<string>
         {
             "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","os","as","um","uma","uns","umas",
@@ -99,34 +98,33 @@ namespace RAG.Dominio.Entidade
             "exemplo","tipo","coisa","caso","vez","forma","modo"
         };
 
-        // sanitizar texto
         private static string SanitizarTexto(string texto)
         {
             if (string.IsNullOrWhiteSpace(texto))
                 return string.Empty;
 
-            // Normaliza quebras de linha para espaços simples
-            return texto.Replace("\r\n", " ").Replace("\n", " ").Trim();
+            var normalizado = texto
+                .Replace("\r\n", " ")
+                .Replace("\r", " ")
+                .Replace("\n", " ")
+                .Replace("\f", " ")
+                .Replace("\t", " ");
+
+            normalizado = Regex.Replace(normalizado, @"\s+", " ");
+            return normalizado.Trim();
         }
 
-        // atualizar texto
         public void AtualizarTexto(string novoTexto)
         {
             Texto = SanitizarTexto(novoTexto);
             DataAtualizacao = DateTime.Now;
         }
 
-
-
-
-        // Método de domínio para atualizar metadados
         public void AtualizarMetadados(string? tipoArquivo, long? tamanhoArquivo)
         {
             TipoArquivo = tipoArquivo;
             TamanhoArquivo = tamanhoArquivo;
             DataAtualizacao = DateTime.Now;
         }
-
-
     }
 }
