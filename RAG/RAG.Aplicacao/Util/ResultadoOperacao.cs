@@ -19,6 +19,7 @@
 
         public static ResultadoOperacao GerarErro(string mensagem, int? codigo = null, object? dados = null)
         {
+            PrintaConsole.Error($"{mensagem}");
             return new ResultadoOperacao
             {
                 Sucesso = false,

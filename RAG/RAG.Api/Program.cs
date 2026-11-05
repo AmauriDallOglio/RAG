@@ -1,20 +1,25 @@
 using RAG.Api.Configuracao;
 using RAG.Api.Configuracao.Middleware;
+using RAG.Aplicacao.Util;
 using RAG.Infraestrutura.Contexto;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string environmentName = builder.Environment.EnvironmentName;
+var ambiente = builder.Environment.IsDevelopment() ? "appsettings.Development.json" : "appsettings.json";
 IConfigurationRoot configuration = new ConfigurationBuilder()
     .SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{ambiente}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables()
     .Build();
 
-
+PrintaConsole.Info("Carregando AppSettings");
 AppSettingsConfiguracao.Carregar(builder.Services, configuration);
+
+PrintaConsole.Info("Carregando injeção dependência");
 InjecaoDependenciaConfiguracao.RegistrarServicos(builder);
+
+PrintaConsole.Info("Carregando configuração do Swagger");
 ApiConfiguracao.ConfiguracaoSwagger(builder.Services);
 
 
